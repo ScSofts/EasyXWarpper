@@ -424,4 +424,33 @@ typedef void* LINESTYLE;
 	EasyX_C_API void  __stdcall	getfont5(LOGFONT *font);
 	EasyX_C_API void __stdcall setfont(int nHeight, int nWidth, LPCTSTR lpszFace);
 
+
+
+	EasyX_C_API void __stdcall ainit();
+	EasyX_C_API void __stdcall auninit();
+	EasyX_C_API void __stdcall loadimagea1(IMAGE *pSrcImg,LPCTSTR pImgFile,bool bResize,int rWidth,int rHeight,bool bMove,int mX,int mY);
+	EasyX_C_API void __stdcall loadimagea2(IMAGE *pSrcImg,LPCTSTR pResType, LPCTSTR pResName,bool bResize,int rWidth,int rHeight,bool bMove,int mX,int mY);
+#if defined(__cplusplus) && !defined(EXP)
+	void loadimagea(IMAGE *pSrcImg, LPCTSTR pImgFile, bool bResize = false, int rWidth = 0,int rHeight = 0, bool bMove = false, int mX = 0, int mY = 0) {
+		loadimagea1(pSrcImg, pImgFile,bResize,rWidth,rHeight,bMove,mX,mY);
+	}
+	void loadimagea(IMAGE *pSrcImg, LPCTSTR pResType, LPCTSTR pResName, bool bResize = false, int rWidth = 0,int rHeight = 0, bool bMove = false, int mX = 0, int mY = 0) {
+		loadimagea2(pSrcImg, pResType, pResName,bResize,rWidth,rHeight,bMove,mX,mY);
+	}
+
+#endif
+	struct AIMAGE_INFORMATION{
+		int m_Width;
+		int m_Height;
+	};
+	EasyX_C_API struct AIMAGE_INFORMATION __stdcall getAIMAGE_INFORMATION1(LPCTSTR pImgFile);
+	EasyX_C_API struct AIMAGE_INFORMATION __stdcall getAIMAGE_INFORMATION2(LPCTSTR pResType, LPCTSTR pResName);
+#if defined(__cplusplus) && !defined(EXP)
+	struct AIMAGE_INFORMATION getAIMAGE_INFORMATION(LPCTSTR pImgFile) {
+		return  getAIMAGE_INFORMATION1(pImgFile);
+	}
+	struct AIMAGE_INFORMATION getAIMAGE_INFORMATION2(LPCTSTR pResType, LPCTSTR pResName) {
+		return  getAIMAGE_INFORMATION2(pResType,pResName);
+	}
+#endif
 #endif

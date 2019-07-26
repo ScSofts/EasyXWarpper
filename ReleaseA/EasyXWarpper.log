@@ -1,19 +1,9 @@
 ﻿  cpptoc.cpp
-  DllMain.cpp
-DllMain.cpp(462): warning C4996: 'setfont': This function is deprecated. Instead, use this new function: settextstyle. See https://docs.easyx.cn/#settextstyle for details.
-  E:\VS\VC\include\graphics.h(78): note: 参见“setfont”的声明
-DllMain.cpp(465): warning C4996: 'setfont': This function is deprecated. Instead, use this new function: settextstyle. See https://docs.easyx.cn/#settextstyle for details.
-  E:\VS\VC\include\graphics.h(79): note: 参见“setfont”的声明
-DllMain.cpp(469): warning C4996: 'setfont': This function is deprecated. Instead, use this new function: settextstyle. See https://docs.easyx.cn/#settextstyle for details.
-  E:\VS\VC\include\graphics.h(80): note: 参见“setfont”的声明
-DllMain.cpp(472): warning C4996: 'setfont': This function is deprecated. Instead, use this new function: settextstyle. See https://docs.easyx.cn/#settextstyle for details.
-  E:\VS\VC\include\graphics.h(81): note: 参见“setfont”的声明
-DllMain.cpp(475): warning C4996: 'getfont': This function is deprecated. Instead, use this new function: gettextstyle. See https://docs.easyx.cn/#gettextstyle for details.
-  E:\VS\VC\include\graphics.h(82): note: 参见“getfont”的声明
-  for_check.c
     正在创建库 E:\VIP\EasyXWarpper\ReleaseA\EasyXWarpper.lib 和对象 E:\VIP\EasyXWarpper\ReleaseA\EasyXWarpper.exp
   正在生成代码
-  All 302 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  1 of 339 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   已完成代码的生成
   EasyXWarpper.vcxproj -> E:\VIP\EasyXWarpper\ReleaseA\EasyXWarpper.dll
   EasyXWarpper.vcxproj -> E:\VIP\EasyXWarpper\ReleaseA\EasyXWarpper.pdb (Full PDB)

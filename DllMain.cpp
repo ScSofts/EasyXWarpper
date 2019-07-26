@@ -404,7 +404,8 @@ DWORD* GetImageBuffer_cpp(IMAGE_cpp* pImg) {
 	return GetImageBuffer((*(IMAGE**)pImg));
 }			// 获取绘图设备的显存指针
 IMAGE_cpp* GetWorkingImage_cpp() {
-	return (void**)GetWorkingImage();
+	static IMAGE * s = (GetWorkingImage());
+	return (void**)&s; 
 }							// 获取当前绘图设备
 void SetWorkingImage_cpp(IMAGE_cpp* pImg) {
 	return SetWorkingImage(*(IMAGE**)pImg);

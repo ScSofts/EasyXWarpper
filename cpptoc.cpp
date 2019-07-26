@@ -1,6 +1,13 @@
 #define EXP 1
+#include <comutil.h>
 #include "C.h"
 #include "CPP.h"
+#include <GdiPlus.h>
+
+#pragma comment(lib, "comsuppw.lib")
+#pragma comment(lib, "GdiPlus.lib")
+using namespace Gdiplus;
+using namespace Gdiplus::DllExports;
 EasyX_C_API HWND __stdcall initgraph(int width,int height){
 	return initgraph_cpp(width, height);
 }
@@ -535,4 +542,143 @@ EasyX_C_API void  __stdcall	getfont5(LOGFONT *font) {
 EasyX_C_API void __stdcall setfont(int nHeight, int nWidth, LPCTSTR lpszFace)
 {
 	return setfont1(nHeight, nWidth, lpszFace);
+}
+
+bool inited = 0;
+ULONG_PTR gdipid;
+EasyX_C_API void __stdcall ainit() {
+	GdiplusStartupInput gsi;
+	GdiplusStartupOutput goi;
+	GdiplusStartup(&gdipid, &gsi, &goi);
+	inited = 1;
+}
+EasyX_C_API void __stdcall auninit() {
+	inited = 0;
+	GdiplusShutdown(gdipid);
+}
+
+EasyX_C_API void __stdcall loadimagea1(IMAGE *pSrcimg, LPCTSTR pImgFile,bool bResize, int rWidth, int rHeight, bool bMove, int mX, int mY) {
+	if (inited == 0) {
+		GdiplusStartupInput gsi;
+		GdiplusStartupOutput goi;
+		GdiplusStartup(&gdipid,&gsi,&goi);
+		inited = 1;
+	}
+	wchar_t * s = (wchar_t*)(_bstr_t)pImgFile;
+	Image *i = new Image((WCHAR*)s);
+	Graphics g(GetImageHDC_cpp(pSrcimg));
+	if (!bResize && !bMove) {
+		g.DrawImage(i, 0, 0, i->GetWidth(), i->GetHeight());
+	}
+	else if(bResize &&!bMove){
+		g.DrawImage(i, 0, 0, rWidth, rHeight);
+	}
+	else if (bResize && bMove) {
+		g.DrawImage(i, mX, mY, rWidth, rHeight);
+	}
+	else if(!bResize && bMove){
+		g.DrawImage(i, mX, mY, i->GetWidth(), i->GetHeight());
+	}
+	g.~Graphics();
+	i->~Image();
+}
+
+EasyX_C_API void __stdcall loadimagea2(IMAGE *pSrcImg, LPCTSTR pResType, LPCTSTR pResName, bool bResize, int rWidth, int rHeight, bool bMove, int mX, int mY) {
+	if (inited == 0) {
+		GdiplusStartupInput gsi;
+		GdiplusStartupOutput goi;
+		GdiplusStartup(&gdipid, &gsi, &goi);
+		inited = 1;
+	}
+	HINSTANCE hInst = GetModuleHandle(NULL);
+	HRSRC hRsrc = ::FindResource(hInst,pResName,pResType); // type
+
+	// load resource into memory
+	DWORD len = SizeofResource(hInst, hRsrc);
+	BYTE* lpRsrc = (BYTE*)LoadResource(hInst, hRsrc);
+
+
+	// Allocate global memory on which to create stream
+	HGLOBAL m_hMem = GlobalAlloc(GMEM_FIXED, len);
+	BYTE* pmem = (BYTE*)GlobalLock(m_hMem);
+	memcpy(pmem, lpRsrc, len);
+	IStream* pstm;
+	CreateStreamOnHGlobal(m_hMem, FALSE, &pstm);
+
+	// load from stream这是关键一句，通过FromStream返回以各Image*，然后在Graphic的DrawImage地方调用就行了！
+	Image *i=new Image(pstm);
+	Graphics g(GetImageHDC_cpp(pSrcImg));
+	if (!bResize && !bMove) {
+		g.DrawImage(i, 0, 0, i->GetWidth(), i->GetHeight());
+	}
+	else if (bResize && !bMove) {
+		g.DrawImage(i, 0, 0, rWidth, rHeight);
+	}
+	else if (bResize && bMove) {
+		g.DrawImage(i, mX, mY, rWidth, rHeight);
+	}
+	else if (!bResize && bMove) {
+		g.DrawImage(i, mX, mY, i->GetWidth(), i->GetHeight());
+	}
+	// free/release stuff
+	GlobalUnlock(m_hMem);
+	pstm->Release();
+	FreeResource(lpRsrc);
+	g.~Graphics();
+	i->~Image();
+}
+EasyX_C_API struct AIMAGE_INFORMATION __stdcall getAIMAGE_INFORMATION1(LPCTSTR pImgFile) {
+	struct  AIMAGE_INFORMATION info;
+	if (inited == 0) {
+		GdiplusStartupInput gsi;
+		GdiplusStartupOutput goi;
+		GdiplusStartup(&gdipid, &gsi, &goi);
+		inited = 1;
+	}
+	wchar_t * s = (wchar_t*)(_bstr_t)pImgFile;
+	Image *i = new Image((WCHAR*)s);
+	if (i == NULL) {
+		return {0,0};
+	}
+	info.m_Height = i->GetHeight();
+	info.m_Width = i->GetWidth();
+	i->~Image();
+	return info;
+}
+EasyX_C_API struct AIMAGE_INFORMATION __stdcall getAIMAGE_INFORMATION2(LPCTSTR pResType, LPCTSTR pResName) {
+	struct  AIMAGE_INFORMATION info;
+	if (inited == 0) {
+		GdiplusStartupInput gsi;
+		GdiplusStartupOutput goi;
+		GdiplusStartup(&gdipid, &gsi, &goi);
+		inited = 1;
+	}
+	HINSTANCE hInst = GetModuleHandle(NULL);
+	HRSRC hRsrc = ::FindResource(hInst, pResName, pResType); // type
+
+															 // load resource into memory
+	DWORD len = SizeofResource(hInst, hRsrc);
+	BYTE* lpRsrc = (BYTE*)LoadResource(hInst, hRsrc);
+
+
+	// Allocate global memory on which to create stream
+	HGLOBAL m_hMem = GlobalAlloc(GMEM_FIXED, len);
+	BYTE* pmem = (BYTE*)GlobalLock(m_hMem);
+	memcpy(pmem, lpRsrc, len);
+	IStream* pstm;
+	CreateStreamOnHGlobal(m_hMem, FALSE, &pstm);
+
+	// load from stream这是关键一句，通过FromStream返回以各Image*，然后在Graphic的DrawImage地方调用就行了！
+	Image *i = new Image(pstm);
+	if (i == NULL) {
+		return{ 0,0 };
+	}
+	info.m_Height = i->GetHeight();
+	info.m_Width = i->GetWidth();
+	// free/release stuff
+	GlobalUnlock(m_hMem);
+	pstm->Release();
+	FreeResource(lpRsrc);
+	i->~Image();
+	return info;
 }

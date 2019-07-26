@@ -1,18 +1,3 @@
-﻿  DllMain.cpp
-e:\vip\easyxwarpper\dllmain.cpp(462): warning C4996: 'setfont': This function is deprecated. Instead, use this new function: settextstyle. See https://docs.easyx.cn/#settextstyle for details.
-  e:\vs\vc\include\graphics.h(78): note: 参见“setfont”的声明
-e:\vip\easyxwarpper\dllmain.cpp(465): warning C4996: 'setfont': This function is deprecated. Instead, use this new function: settextstyle. See https://docs.easyx.cn/#settextstyle for details.
-  e:\vs\vc\include\graphics.h(79): note: 参见“setfont”的声明
-e:\vip\easyxwarpper\dllmain.cpp(469): warning C4996: 'setfont': This function is deprecated. Instead, use this new function: settextstyle. See https://docs.easyx.cn/#settextstyle for details.
-  e:\vs\vc\include\graphics.h(80): note: 参见“setfont”的声明
-e:\vip\easyxwarpper\dllmain.cpp(472): warning C4996: 'setfont': This function is deprecated. Instead, use this new function: settextstyle. See https://docs.easyx.cn/#settextstyle for details.
-  e:\vs\vc\include\graphics.h(81): note: 参见“setfont”的声明
-e:\vip\easyxwarpper\dllmain.cpp(475): warning C4996: 'getfont': This function is deprecated. Instead, use this new function: gettextstyle. See https://docs.easyx.cn/#gettextstyle for details.
-  e:\vs\vc\include\graphics.h(82): note: 参见“getfont”的声明
-  cpptoc.cpp
-  正在生成代码...
-  for_check.c
-    正在创建库 E:\VIP\EasyXWarpper\DebugA\EasyXWarpper.lib 和对象 E:\VIP\EasyXWarpper\DebugA\EasyXWarpper.exp
-for_check.obj : warning LNK4217: 本地定义的符号 _putimage1@12 在函数 _putimage@12 中导入
+﻿  cpptoc.cpp
   EasyXWarpper.vcxproj -> E:\VIP\EasyXWarpper\DebugA\EasyXWarpper.dll
   EasyXWarpper.vcxproj -> E:\VIP\EasyXWarpper\DebugA\EasyXWarpper.pdb (Full PDB)
